@@ -1,0 +1,172 @@
+<html>
+<head>
+    <title>Tic Tac Toe Game</title>
+    <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- when the page loads the its going to call the function start the game -->
+    
+<body onload="startGame();">
+           <h1>Tic Tac Toe</h1>
+        
+        <!-- all the messages are getting the id -->
+        <div id="message">messages will go here</div>
+
+    <table align ="center" border="5" >
+        <!-- Centering the table row -->
+        <tr align="center">
+            <!-- oncick does a certain action when it is clicked on, in this case it activates the nextMove function -->
+            <td id="s1" class="Square" onclick="nextMove(this);"></td>
+            <td id="s2" class="Square" onclick="nextMove(this);"></td>
+            <td id="s3" class="Square" onclick="nextMove(this);"></td>
+        </tr>
+        <!-- Centering the table row -->
+        <tr align="center">
+            <!-- oncick does a certain action when it is clicked on, in this case it activates the nextMove function -->
+            <td id="s4" class="Square" onclick="nextMove(this);"></td>
+            <td id="s5" class="Square" onclick="nextMove(this);"></td>
+            <td id="s6" class="Square" onclick="nextMove(this);"></td>
+        </tr>
+       <!-- Centering the table row -->
+       <tr align="center">
+           <!-- oncick does a certain action when it is clicked on, in this case it activates the nextMove function -->
+            <td id="s7" class="Square" onclick="nextMove(this);"></td>
+            <td id="s8" class="Square" onclick="nextMove(this);"></td>
+            <td id="s9" class="Square" onclick="nextMove(this);"></td>
+        </tr>
+        </table>
+        <!-- Creating the button to start over, making it a link by using href -->
+        <a href="javascript:startGame();"><button class="button">Start Over</button></a>
+    </body>
+    
+    <style>
+        /*Styling the class square */
+        .Square {
+            width: 150px;
+            height: 150px;
+            text-align: center;
+            font-size: 20pt;
+            font-weight: bold;
+            font-family: Verdana;
+        }
+        /*Styling the body */
+        body{
+            font-size: 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+            text-align: center;
+            /* adding a background image to the body */
+            background-image: url("https://www.clipartsgram.com/image/1732069297-in-blue-only-yet-there-really-are-changes-you-won-t-ever-be-bored-in-vision-hd-single-color-wallpaper1.jpg");
+        }
+        table{
+            background-color: lightgreen
+        }
+        #message{
+            text-align: center;
+            
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .button{
+            background-color: yellow;
+            color: black;
+            padding: 23px 32px;
+            text-align: center;
+            text-transform: uppercase;
+            display: inline-block;
+            font-size: 20px;
+            margin: 10px 5px;
+            cursor: pointer;
+            /* Curving the edges of the button */
+            border-radius: 80px;
+        }
+    </style>
+
+    <script>
+        //Starting game function
+        function startGame() {
+            //When starting resets the board when it less than or equal to 9
+            for (var i = 1; i <= 9; i++) {
+                 clearBox(i);
+            }
+            //variable is X and X goes first
+            document.turn = "X";
+            document.winner = null;
+            //Message saying X gets to start
+            setMessage(document.turn + " gets to start.");
+        }
+
+        function setMessage(msg) {
+            //getting elements by ID message and set what ever is on msg
+            document.getElementById("message").innerText = msg;
+        }
+
+        function nextMove(square) {
+            //if the winner is not equal to null outputs the message showing who won the game
+            if (document.winner != null) {
+                    setMessage(document.winner + " already won the game.");
+            //this else if checks if the square is empty if it is lets the user click and turn it if not gives a message saying the square is already being used
+            } else if (square.innerText == "") {
+                    square.innerText = document.turn;
+                    //calling the switch turn function
+                    switchTurn();
+            //the message saying the sqaure is already being used
+            } else {
+                    setMessage("That square is already being used.");
+            }
+        }
+        
+        //this function switches the turns eg:- from player X to player O
+        function switchTurn() {
+            //if we have a winner we output the messege
+            if (checkForWinner(document.turn)) {
+                    setMessage("Congratulations,  " + document.turn + " !  You win!"); 
+                    document.winner = document.turn;
+            } else if (document.turn == "X") {
+                    document.turn = "O";
+                    setMessage("It's " + document.turn + "'s turn!");
+            } else {
+                    document.turn = "X";
+                    //message showing who's turn is next
+                    setMessage("It's " + document.turn + "'s turn!");
+            }
+        }
+
+        function checkForWinner(move) {
+            var result = false;
+            //win combinations
+            if (checkRow(1, 2, 3, move) || 
+                checkRow(4, 5, 6, move) ||
+                checkRow(7, 8, 9, move) || 
+                checkRow(1, 4, 7, move) ||
+                checkRow(2, 5, 8, move) ||
+                checkRow(3, 6, 9, move) ||
+                checkRow(1, 5, 9, move) ||
+                checkRow(3, 5, 7, move)) {
+
+                result = true;
+                }
+            return result; 
+       }
+       //this function checks if all the items in the 3 square are the same
+        function checkRow(a, b, c, move) {
+            var result = false;
+            //if whats is in box a, b and c are all same then the result is true
+            if (getBox(a) == move && getBox(b) == move && getBox(c) == move) {
+                    result = true;
+            }
+            return result;
+        }
+        //this function is going to give you the item based on the number
+        function getBox(number) {
+            return document.getElementById("s" + number).innerText;
+        }
+        //Clearing the box by getting the box location by ID and then replacing the text with a blank
+        function clearBox(number) {
+                document.getElementById("s" + number).innerText = "";
+        }
+
+       </script>
+
+    </head>
+       
+</html>
